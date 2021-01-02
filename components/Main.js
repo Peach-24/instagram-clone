@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 // below will allow us to connect to reduc
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -18,7 +18,7 @@ const EmptyScreen = () => {
 
 import { color } from 'react-native-reanimated';
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 export class Main extends Component {
   componentDidMount() {
@@ -29,13 +29,13 @@ export class Main extends Component {
 
   render() {
     return (
-      <Tab.Navigator initialRouteName="Feed">
+      <Tab.Navigator initialRouteName="Feed" labeled={false}>
         <Tab.Screen
           name="Feed"
           component={FeedScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="home" color={color} size={26} />
+              <MaterialCommunityIcons name="home" color={color} size={28} />
             ),
           }}
         />
