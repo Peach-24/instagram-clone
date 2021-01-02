@@ -1,8 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
+import * as firebase from 'firebase';
+import 'firebase/auth';
+import 'firebase/firestore';
+
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import * as firebase from 'firebase';
-import 'firebase/firestore';
 
 // boilerplate imports for Redux
 import { Provider } from 'react-redux';
@@ -83,7 +84,15 @@ export class App extends Component {
       // Must make parent tag Provider - the only way of accessing Redux
       // Must also pass along store
       <Provider store={store}>
-        <MainScreen />
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Main">
+            <Stack.Screen
+              name="Main"
+              component={MainScreen}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
       </Provider>
     );
   }

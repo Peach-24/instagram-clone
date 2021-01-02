@@ -1,6 +1,9 @@
+import * as firebase from 'firebase';
+import 'firebase/auth';
+import 'firebase/firestore';
+
 import React, { Component } from 'react';
 import { View, Button, TextInput } from 'react-native';
-import * as firebase from 'firebase';
 
 export class Register extends Component {
   // need a constructor because this component needs to be initialised

@@ -1,6 +1,9 @@
-import { USER_STATE_CHANGE } from '../constants/index';
 // make a call to fetch the user, save the user, fetch posts
-import firebase from 'firebase';
+import * as firebase from 'firebase';
+import 'firebase/auth';
+import 'firebase/firestore';
+
+import { USER_STATE_CHANGE } from '../constants/index';
 
 export function fetchUser() {
   return (dispatch) => {
@@ -15,8 +18,7 @@ export function fetchUser() {
       .then((snapshot) => {
         if (snapshot.exists) {
           // dispatch means 'send to the reducer, a call'
-          console.log(snapshot.data());
-          dispatch({ type: USER_STATE_CHANGE, currentUser: snapshot.data });
+          dispatch({ type: USER_STATE_CHANGE, currentUser: snapshot.data() });
         } else {
           console.log('NO USER - does not exist.');
         }
