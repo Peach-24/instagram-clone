@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Button, TextInput } from 'react-native';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 
 export class Register extends Component {
   // need a constructor because this component needs to be initialised
@@ -24,6 +24,14 @@ export class Register extends Component {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
+        firebase
+          .firestore()
+          .collection('users')
+          .doc(firebase.auth().currentUser.uid)
+          .set({
+            name,
+            email,
+          });
         console.log(result);
       })
       .catch((error) => {
