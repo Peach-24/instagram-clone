@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Button, TextInput } from 'react-native';
 import firebase from 'firebase';
 
-export class Register extends Component {
+export class Login extends Component {
   // need a constructor because this component needs to be initialised
   constructor(props) {
     super(props);
@@ -10,7 +10,6 @@ export class Register extends Component {
     this.state = {
       email: '',
       password: '',
-      name: '',
     };
 
     // binding 'this' to onSignUp f
@@ -19,10 +18,10 @@ export class Register extends Component {
 
   onSignUp() {
     // must bind the onSignUp function to the 'this' variable
-    const { email, password, name } = this.state;
+    const { email, password } = this.state;
     firebase
       .auth()
-      .createUserWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(email, password)
       .then((result) => {
         console.log(result);
       })
@@ -55,10 +54,10 @@ export class Register extends Component {
           }}
         />
 
-        <Button onPress={() => this.onSignUp()} title="Sign Up" />
+        <Button onPress={() => this.onSignUp()} title="Sign In" />
       </View>
     );
   }
 }
 
-export default Register;
+export default Login;
