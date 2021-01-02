@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function App() {
-  const [hasPermission, setHasPermission] = useState(null);
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
+  const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
@@ -11,8 +13,15 @@ export default function App() {
   useEffect(() => {
     (async () => {
       // checks if app has he permissions to use camera, then updates 'state' in hook.
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
+      const cameraStatus = await Camera.requestPermissionsAsync();
+      setHasCameraPermission(cameraStatus.status === 'granted');
+
+      const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      setHasGalleryPermission(galleryStatus.status === 'granted');
+
+      if (galleryStatus.status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
     })();
   }, []);
 
@@ -23,17 +32,34 @@ export default function App() {
     }
   };
 
-  if (hasPermission === null) {
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      // specify which types of media you want user to be able to select
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
+  if (hasCameraPermission === null || hasGalleryPermission === false) {
     return <View />;
   }
-  if (hasPermission === false) {
+  if (hasCameraPermission === false || hasGalleryPermission === false) {
     return <Text>No access to camera</Text>;
   }
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.cameraContainer}>
+        {/* line below creates a ref so we can access it elsewhere (in takePhoto)
+        using hook */}
         <Camera
-          // line below creates a ref so we can access it elsewhere (in takePhoto) using hook
           ref={(ref) => setCamera(ref)}
           style={styles.fixedRatio}
           type={type}
@@ -53,6 +79,9 @@ export default function App() {
       ></Button>
 
       <Button title="Take Photo" onPress={() => takePhoto()}></Button>
+
+      <Button title="Upload Image" onPress={() => pickImage()}></Button>
+
       {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
     </View>
   );
