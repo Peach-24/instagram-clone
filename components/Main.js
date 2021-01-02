@@ -9,8 +9,12 @@ import { fetchUser } from '../redux/actions/index';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import FeedScreen from './main/Feed';
-import AddScreen from './main/Add';
 import ProfileScreen from './main/Profile';
+
+//Dummy empty screen for passing along to Add tab
+const EmptyScreen = () => {
+  return null;
+};
 
 import { color } from 'react-native-reanimated';
 
@@ -25,7 +29,7 @@ export class Main extends Component {
 
   render() {
     return (
-      <Tab.Navigator>
+      <Tab.Navigator initialRouteName="Feed">
         <Tab.Screen
           name="Feed"
           component={FeedScreen}
@@ -36,8 +40,15 @@ export class Main extends Component {
           }}
         />
         <Tab.Screen
-          name="Add"
-          component={AddScreen}
+          // specific listener to open up a different screen,
+          name="AddContainer"
+          component={EmptyScreen}
+          listeners={({ navigation }) => ({
+            tabPress: (event) => {
+              event.preventDefault();
+              navigation.navigate('Add');
+            },
+          })}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="plus" color={color} size={26} />
