@@ -3,7 +3,11 @@ import * as firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
 
-import { USER_STATE_CHANGE, USER_POSTS_STATE_CHANGE } from '../constants/index';
+import {
+  USER_STATE_CHANGE,
+  USER_POSTS_STATE_CHANGE,
+  USER_FOLLOWING_STATE_CHANGE,
+} from '../constants/index';
 
 export function fetchUser() {
   return (dispatch) => {
@@ -20,7 +24,7 @@ export function fetchUser() {
           // dispatch means 'send to the reducer, a call'
           dispatch({ type: USER_STATE_CHANGE, currentUser: snapshot.data() });
         } else {
-          console.log('NO USER - does not exist.');
+          console.log('User does not exist.');
         }
       });
   };
@@ -30,16 +34,12 @@ export function fetchUser() {
 export function fetchUserPosts() {
   return (dispatch) => {
     firebase
-      // make a call to firestore
       .firestore()
-      // work way down the db structure path
       .collection('posts')
-      // use the currentUser ID
       .doc(firebase.auth().currentUser.uid)
       .collection('userPosts')
       .orderBy('creation', 'asc')
       .get()
-      // we get a snapshot back
       .then((snapshot) => {
         // map over the return value of the request, and format it.
         let posts = snapshot.docs.map((doc) => {
@@ -47,8 +47,27 @@ export function fetchUserPosts() {
           const id = doc.id;
           return { id, ...data };
         });
-        console.log(posts);
         dispatch({ type: USER_POSTS_STATE_CHANGE, posts });
+      });
+  };
+}
+
+// fetching the user's following
+// onSnapshot triggers function everything something changes in the database, automatically
+export function fetchUserFollowing() {
+  return (dispatch) => {
+    firebase
+      .firestore()
+      .collection('following')
+      .doc(firebase.auth().currentUser.uid)
+      .collection('userFollowing')
+      .orderBy('creation', 'asc')
+      .onSnapshot((snapshot) => {
+        let following = snapshot.docs.map((doc) => {
+          const id = doc.id;
+          return id;
+        });
+        dispatch({ type: USER_FOLLOWING_STATE_CHANGE, following });
       });
   };
 }
