@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 
 import firebase from 'firebase';
+import { useLinkProps } from '@react-navigation/native';
 require('firebase/firestore');
 
 // use the useState hook to store the data of the users, starts as an empty array
-export default function Search() {
+export default function Search({ navigation }) {
   const [users, setUsers] = useState([]);
 
   const fetchUsers = (search) => {
@@ -27,7 +34,24 @@ export default function Search() {
 
   return (
     <View>
-      <Text></Text>
+      <TextInput
+        placeholder={'Search...'}
+        onChangeText={(search) => fetchUsers(search)}
+      />
+      <FlatList
+        numColumns={1}
+        horizontal={false}
+        data={users}
+        // renderItem renders out each and every item
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            // upon clicking the touchable opacity, we'll use react navigation to go to a page, and pass the id to it as well
+            onPress={() => navigation.navigate('Profile', { uid: item.id })}
+          >
+            <Text>{item.name}</Text>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 }
