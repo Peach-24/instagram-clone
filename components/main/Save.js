@@ -18,8 +18,6 @@ export default function Save(props, { navigation }) {
       firebase.auth().currentUser.uid
     }/${Math.random().toString(36)}`;
 
-    console.log('ChildPath -> ', childPath);
-
     const res = await fetch(uri);
     // set a blob, responsible for uploading the image. Create a blob of the uri, which it will pass to firestore
     const blob = await res.blob();
@@ -31,12 +29,11 @@ export default function Save(props, { navigation }) {
 
     // The below functions help us keep track of the upload progress
     const taskProgress = (snapshot) => {
-      console.log(`transferred: ${snapshot.bytesTransferred}`);
+      // console.log(`transferred: ${snapshot.bytesTransferred}`);
     };
     // upon completion, we'll retrieve the download URL, and then save to firestore
     const taskCompleted = () => {
       task.snapshot.ref.getDownloadURL().then((snapshot) => {
-        console.log(snapshot);
         savePostData(snapshot);
       });
     };
