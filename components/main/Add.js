@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function App() {
+export default function Add({ navigation }) {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [camera, setCamera] = useState(null);
@@ -81,6 +81,12 @@ export default function App() {
       <Button title="Take Photo" onPress={() => takePhoto()}></Button>
 
       <Button title="Upload Image" onPress={() => pickImage()}></Button>
+      {/* Passing along the data {image} as an argument, makes it accessible in the props */}
+      {/* The navigation is passed to add on this.props*/}
+      <Button
+        title="Save"
+        onPress={() => navigation.navigate('Save', { image })}
+      ></Button>
 
       {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
     </View>
