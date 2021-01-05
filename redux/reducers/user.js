@@ -1,3 +1,5 @@
+// Dedicated to the current user
+
 import {
   USER_STATE_CHANGE,
   USER_POSTS_STATE_CHANGE,
