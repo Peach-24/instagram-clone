@@ -17,7 +17,8 @@ function Profile(props) {
 
   useEffect(() => {
     // bringing in props from redux (line below)
-    const { currentUser, posts } = props;
+    const { currentUser, posts, following } = props;
+    console.log(currentUser, posts, following);
 
     if (props.route.params.uid === firebase.auth().currentUser.uid) {
       setUser(currentUser);
@@ -65,6 +66,7 @@ function Profile(props) {
   // !! the above array argument means that the useEffect avoids an infinite loop by only changing when something in the state changes
 
   const onFollow = () => {
+    console.log('Trying to follow');
     firebase
       .firestore()
       .collection('following')
@@ -75,13 +77,14 @@ function Profile(props) {
   };
 
   const onUnfollow = () => {
+    console.log('Trying to unfollow');
     firebase
       .firestore()
       .collection('following')
       .doc(firebase.auth().currentUser.uid)
       .collection('userFollowing')
       .doc(props.route.params.uid)
-      .delete({});
+      .delete();
   };
 
   if (user === null) {

@@ -61,7 +61,6 @@ export function fetchUserFollowing() {
       .collection('following')
       .doc(firebase.auth().currentUser.uid)
       .collection('userFollowing')
-      .orderBy('creation', 'asc')
       .onSnapshot((snapshot) => {
         let following = snapshot.docs.map((doc) => {
           const id = doc.id;
