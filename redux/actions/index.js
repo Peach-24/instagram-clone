@@ -7,7 +7,7 @@ import {
   USER_STATE_CHANGE,
   USER_POSTS_STATE_CHANGE,
   USER_FOLLOWING_STATE_CHANGE,
-  USERS_DATA_STATE_CHANGE
+  USERS_DATA_STATE_CHANGE,
 } from '../constants/index';
 
 export function fetchUser() {
@@ -83,19 +83,20 @@ export function fetchUsersData(uid) {
 
     if (!found) {
       firebase
-      .firestore()
-      .collection('users')
-      .doc(uid)
-      .get()
-      .then((snapshot) => {
-        if (snapshot.exists) {
-          let user = snapshot.data();
-          user.uid = snapshot.id;
+        .firestore()
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((snapshot) => {
+          if (snapshot.exists) {
+            let user = snapshot.data();
+            user.uid = snapshot.id;
 
-          dispatch({ type: USERS_DATA_STATE_CHANGE, user });
-        } else {
-          console.log('User does not exist.');
-        }
+            dispatch({ type: USERS_DATA_STATE_CHANGE, user });
+          } else {
+            console.log('User does not exist.');
+          }
+        });
     }
   };
 }
