@@ -106,10 +106,10 @@ const mapStateToProps = (store) => ({
   currentUser: store.userState.currentUser,
 });
 
-const mapDispatchProps = (dispatch) =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     { fetchUser, fetchUserPosts, fetchUserFollowing },
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
