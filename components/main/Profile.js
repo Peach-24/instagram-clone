@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Image, FlatList, Button } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text, Image, FlatList, Button } from "react-native";
 
-import * as firebase from 'firebase';
-require('firebase/firestore');
+import * as firebase from "firebase";
+require("firebase/firestore");
 
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 function Profile(props) {
   const [userPosts, setUserPosts] = useState([]);
@@ -28,7 +28,7 @@ function Profile(props) {
       // see /redux/actions/index.js for explainer comments
       firebase
         .firestore()
-        .collection('users')
+        .collection("users")
         .doc(props.route.params.uid)
         .get()
         .then((snapshot) => {
@@ -36,15 +36,15 @@ function Profile(props) {
           if (snapshot.exists) {
             setUser(snapshot.data());
           } else {
-            console.log('User does not exist.');
+            console.log("User does not exist.");
           }
         });
       firebase
         .firestore()
-        .collection('posts')
+        .collection("posts")
         .doc(props.route.params.uid)
-        .collection('userPosts')
-        .orderBy('creation', 'asc')
+        .collection("userPosts")
+        .orderBy("creation", "asc")
         .get()
         .then((snapshot) => {
           let posts = snapshot.docs.map((doc) => {
@@ -66,23 +66,23 @@ function Profile(props) {
   // !! the above array argument means that the useEffect avoids an infinite loop by only changing when something in the state changes
 
   const onFollow = () => {
-    console.log('Trying to follow');
+    console.log("Trying to follow");
     firebase
       .firestore()
-      .collection('following')
+      .collection("following")
       .doc(firebase.auth().currentUser.uid)
-      .collection('userFollowing')
+      .collection("userFollowing")
       .doc(props.route.params.uid)
       .set({});
   };
 
   const onUnfollow = () => {
-    console.log('Trying to unfollow');
+    console.log("Trying to unfollow");
     firebase
       .firestore()
-      .collection('following')
+      .collection("following")
       .doc(firebase.auth().currentUser.uid)
-      .collection('userFollowing')
+      .collection("userFollowing")
       .doc(props.route.params.uid)
       .delete();
   };

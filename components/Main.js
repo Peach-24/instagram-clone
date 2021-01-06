@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import firebase from 'firebase';
+import React, { Component } from "react";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import firebase from "firebase";
 // below will allow us to connect to reducer
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import {
   fetchUser,
   fetchUserPosts,
   fetchUserFollowing,
-} from '../redux/actions/index';
+} from "../redux/actions/index";
 
 // Importing Icons
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-import FeedScreen from './main/Feed';
-import ProfileScreen from './main/Profile';
-import SearchScreen from './main/Search';
+import FeedScreen from "./main/Feed";
+import ProfileScreen from "./main/Profile";
+import SearchScreen from "./main/Search";
 
 //Dummy empty screen for passing along to Add tab
 const EmptyScreen = () => {
   return null;
 };
 
-import { color } from 'react-native-reanimated';
+import { color } from "react-native-reanimated";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -64,7 +64,7 @@ export class Main extends Component {
           listeners={({ navigation }) => ({
             tabPress: (event) => {
               event.preventDefault();
-              navigation.navigate('Add');
+              navigation.navigate("Add");
             },
           })}
           options={{
@@ -80,7 +80,7 @@ export class Main extends Component {
           listeners={({ navigation }) => ({
             tabPress: (event) => {
               event.preventDefault();
-              navigation.navigate('Profile', {
+              navigation.navigate("Profile", {
                 uid: firebase.auth().currentUser.uid,
               });
             },

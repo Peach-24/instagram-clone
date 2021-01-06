@@ -1,9 +1,9 @@
-import * as firebase from 'firebase';
-import 'firebase/auth';
-import 'firebase/firestore';
+import * as firebase from "firebase";
+import "firebase/auth";
+import "firebase/firestore";
 
-import React, { Component } from 'react';
-import { View, Button, TextInput } from 'react-native';
+import React, { Component } from "react";
+import { View, Button, TextInput } from "react-native";
 
 export class Register extends Component {
   // need a constructor because this component needs to be initialised
@@ -11,9 +11,9 @@ export class Register extends Component {
     super(props);
 
     this.state = {
-      email: '',
-      password: '',
-      name: '',
+      email: "",
+      password: "",
+      name: "",
     };
 
     // binding 'this' to onSignUp f
@@ -29,7 +29,7 @@ export class Register extends Component {
       .then((result) => {
         firebase
           .firestore()
-          .collection('users')
+          .collection("users")
           .doc(firebase.auth().currentUser.uid)
           .set({
             name,

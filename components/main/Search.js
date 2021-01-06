@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
   TextInput,
   FlatList,
   TouchableOpacity,
-} from 'react-native';
+} from "react-native";
 
-import firebase from 'firebase';
-import { useLinkProps } from '@react-navigation/native';
-require('firebase/firestore');
+import firebase from "firebase";
+import { useLinkProps } from "@react-navigation/native";
+require("firebase/firestore");
 
 // use the useState hook to store the data of the users, starts as an empty array
 export default function Search({ navigation }) {
@@ -19,8 +19,8 @@ export default function Search({ navigation }) {
     // useful search firestore function
     firebase
       .firestore()
-      .collection('users')
-      .where('name', '>=', search)
+      .collection("users")
+      .where("name", ">=", search)
       .get()
       .then((snapshot) => {
         let users = snapshot.docs.map((doc) => {
@@ -35,7 +35,7 @@ export default function Search({ navigation }) {
   return (
     <View>
       <TextInput
-        placeholder={'Search...'}
+        placeholder={"Search..."}
         onChangeText={(search) => fetchUsers(search)}
       />
       <FlatList
@@ -46,7 +46,7 @@ export default function Search({ navigation }) {
         renderItem={({ item }) => (
           <TouchableOpacity
             // upon clicking the touchable opacity, we'll use react navigation to go to a page, and pass the id to it as well
-            onPress={() => navigation.navigate('Profile', { uid: item.id })}
+            onPress={() => navigation.navigate("Profile", { uid: item.id })}
           >
             <Text>{item.name}</Text>
           </TouchableOpacity>

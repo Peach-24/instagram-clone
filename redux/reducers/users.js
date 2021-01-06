@@ -22,7 +22,13 @@ export const users = (state = initialState, action) => {
     case USERS_POSTS_STATE_CHANGE:
       return {
         ...state,
-        posts: action.posts,
+        usersLoaded: (state.usersLoaded += 1),
+        // if a user is found within these constraints, then we are going to update the users array
+        // first return of the ternary will make it so that attaches the posts array from our query, to the user object that matches the condition
+        // if no user is found, we'll just return the user without any changes.
+        users: state.users.map((user) =>
+          user.uid === action.uid ? { ...user, posts: action.posts } : user
+        ),
       };
     default:
       return state;

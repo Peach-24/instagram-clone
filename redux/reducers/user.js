@@ -4,7 +4,7 @@ import {
   USER_STATE_CHANGE,
   USER_POSTS_STATE_CHANGE,
   USER_FOLLOWING_STATE_CHANGE,
-} from '../constants';
+} from "../constants";
 
 const initialState = {
   currentUser: null,

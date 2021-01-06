@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { View, TextInput, Image, Button } from 'react-native';
+import React, { useState } from "react";
+import { View, TextInput, Image, Button } from "react-native";
 
-import firebase from 'firebase';
-require('firebase/firestore');
-require('firebase/firebase-storage');
+import firebase from "firebase";
+require("firebase/firestore");
+require("firebase/firebase-storage");
 
 // Access the saved image from the props >>>>> console.log(props.route.params.image);
 
 export default function Save(props, { navigation }) {
-  const [caption, setCaption] = useState('');
+  const [caption, setCaption] = useState("");
 
   // must be async await, responsible for fetching the image and getting the data
   const uploadImage = async () => {
@@ -43,7 +43,7 @@ export default function Save(props, { navigation }) {
     };
 
     // we must put the above three functions together. taskCompleted must be at the end!
-    task.on('state_changed', taskProgress, taskError, taskCompleted);
+    task.on("state_changed", taskProgress, taskError, taskCompleted);
   };
 
   // handle uploading the image
@@ -51,9 +51,9 @@ export default function Save(props, { navigation }) {
   const savePostData = (downloadURL) => {
     firebase
       .firestore()
-      .collection('posts')
+      .collection("posts")
       .doc(firebase.auth().currentUser.uid)
-      .collection('userPosts')
+      .collection("userPosts")
       .add({
         downloadURL,
         caption,

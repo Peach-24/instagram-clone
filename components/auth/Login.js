@@ -1,6 +1,6 @@
-import * as firebase from 'firebase';
-import React, { Component } from 'react';
-import { View, Button, TextInput } from 'react-native';
+import * as firebase from "firebase";
+import React, { Component } from "react";
+import { View, Button, TextInput } from "react-native";
 
 export class Login extends Component {
   // need a constructor because this component needs to be initialised
@@ -8,8 +8,8 @@ export class Login extends Component {
     super(props);
 
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     };
 
     // binding 'this' to onSignUp f
